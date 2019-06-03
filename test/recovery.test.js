@@ -62,5 +62,15 @@ contract('LockdropRecovery', (accounts) => {
       // Assert all balances are higher after claiming
       assert.ok(web3.utils.toBN(bal).lt(web3.utils.toBN(balancesAfter[inx])));
     });
+    // Ensure one cannot send Ether to the contract after it is created
+    try {
+      await web3.eth.sendTransaction({
+        from: accounts[0],
+        to: contractAddr,
+        value: web3.utils.toWei('1', 'ether'),
+      });
+    } catch (e) {
+      assert.ok(e.toString().indexOf('VM Exception while processing transaction: revert') !== -1);
+    }
   });
 });

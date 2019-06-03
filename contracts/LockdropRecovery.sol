@@ -29,4 +29,8 @@ contract LockdropRecovery {
     // Transfer the amount
     msg.sender.transfer(amount);
   }
+
+  function() external payable {
+    revert();
+  }
 }
